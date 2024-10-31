@@ -1,50 +1,113 @@
-[![Install](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/install.yml/badge.svg)](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/install.yml)
-[![Format](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/format.yml/badge.svg)](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/format.yml)
-[![Lint](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/lint.yml/badge.svg)](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/lint.yml)
-[![Test](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/test.yml/badge.svg)](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/test.yml)
-[![Deploy](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/deploy.yml/badge.svg)](https://github.com/nogibjj/arko-sqlite-lab/actions/workflows/deploy.yml)
+[![Rust CI/CD](https://github.com/nogibjj/arko_individual_project_2/actions/workflows/CICD.yml/badge.svg)](https://github.com/nogibjj/arko_individual_project_2/actions/workflows/CICD.yml)
+# Stock Data ETL CLI using Rust
 
-# CLI Tool to interact with SQLite Database
+## Overview
 
-This project is to demonstrate how to perform ETL processes on a dataset and creating a CLI tool enable users to interact with the database.
-
-## Project Function
-- A `main.py` script which serves as the CLI structure and logic.
-- A `mylib/extract.py` script to extract a csv file from github.
-- A `mylib/transform_load.py` script to remove all unwanted columns and then load it to a sqlite database
-- A `mylib/query.py` script to perform CRUD queries on the dataset along with the option to execute custom queries.<br>Default custom script outputs the % change in close value for the past 5 days.
-- A `test_main.py` script to unit test the different functionalities.
-
-![image](https://github.com/user-attachments/assets/fc27b7c0-e55d-45d5-9cd0-b92fcad6eb6e)
-
-
+This project is a command-line interface (CLI) tool for extracting, transforming, loading, and querying stock data, specifically for Apple Inc. (AAPL). The system allows users to extract stock data from a CSV file, load it into a SQLite database, and perform various SQL queries, including CRUD operations. The tool also provides a default mode that returns the percentage change in the closing price over the past five days.
 
 ## Project Structure
 
-- `mylib/`: Contains the ETL scripts.
-- `requirements.txt`: Lists the Python dependencies.
-- `Makefile`: Defines common tasks like installing dependencies, running tests, linting, and running docker.
-- `.devcontainer/`: Contains `Dockerfile` and VS Code configuration.
-- `.github/workflows/`: Contians CI/CD workflows for GitHub.
-![image](https://github.com/user-attachments/assets/86b856c0-d55a-486e-8811-984f8011456e)
-
-## Project Setup
-### 1. Clone the Repository
-
-Clone the repository to your local machine:
-
-```bash
-git clone https://github.com/nogibjj/arko-sqlite-lab
-cd arko-sqlite-lab
+```
+├── Cargo.lock
+├── Cargo.toml
+├── LICENSE
+├── Makefile
+├── README.md
+├── aapl.db
+├── data
+│   └── AAPL.csv
+├── src
+│   ├── extract.rs
+│   ├── load_transform.rs
+│   ├── main.rs
+│   └── query.rs
+└── tests
+    └── cli_tests.rs
 ```
 
-### 2. Run CLI tool
+### File Descriptions
+
+- **Cargo.toml**: The manifest file for the Rust project, listing dependencies and metadata.
+- **Cargo.lock**: Automatically generated file that specifies the exact versions of dependencies used in the project.
+- **LICENSE**: The license under which the project is distributed.
+- **Makefile**: A file for automating the build process and other tasks.
+- **README.md**: This documentation file.
+- **aapl.db**: The SQLite database file that stores the loaded stock data.
+- **data/AAPL.csv**: The source CSV file containing stock data for Apple Inc.
+- **src/extract.rs**: Contains functions to extract data from the CSV file and save it locally.
+- **src/load_transform.rs**: Contains functions to load the extracted data into the SQLite database and perform any necessary transformations.
+- **src/main.rs**: The entry point of the application, implementing the CLI interface.
+- **src/query.rs**: Contains functions to query the SQLite database, including the default and custom modes for SQL commands.
+- **tests/cli_tests.rs**: Contains tests for the CLI functionality to ensure it works as intended.
+
+## Getting Started
+
+### Prerequisites
+
+- Rust installed on your machine. You can install it from [rustup.rs](https://rustup.rs/).
+- SQLite installed for managing the database.
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/nogibjj/arko_individual_project_2.git
+   cd arko_individual_project_2
+   ```
+
+2. Build the project:
+
+   ```bash
+   cargo build --release
+   ```
+
+### Running the Project
+
+1. **Extracting Data**:
+   - Use the `extract` module to extract data from the CSV file:
+   
+   ```bash
+   cargo run --bin rust_etl_cli extract
+   ```
+
+2. **Loading Data**:
+   - Load the extracted data into the SQLite database using the `load_transform` module:
+   
+   ```bash
+   cargo run --bin rust_etl_cli load
+   ```
+
+3. **Running Queries**:
+   - Use the `main` module to run the CLI and query the database:
+   
+   ```bash
+   cargo run --bin rust_etl_cli query
+   ```
+
+   - **Default Mode**: When you run the query script without any additional parameters, it will return the percentage change in the closing price for the past five days.
+
+   - **Custom Mode**: You can pass any SQL command as an argument, including `UPDATE` and `DELETE` actions. For example:
+
+
+### Testing
+
+To run the CLI tests, use the following command:
 
 ```bash
-.venv/bin/python main.py
+cargo test
 ```
-![image](https://github.com/user-attachments/assets/107a7c06-d6ca-415a-b94a-e0b0b3b3e7c1)
-![image](https://github.com/user-attachments/assets/bbeadc3f-314c-40e0-a141-ebb3ba233a30)
 
+## Usage
 
+- After running the main script, you can enter SQL commands directly into the prompt. Ensure that your commands are valid SQL statements compatible with SQLite.
+- Use the default mode for quick insights on the stock's performance without needing to input SQL commands manually.
+
+## Contributing
+
+Contributions are welcome! If you have suggestions for improvements or find bugs, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
