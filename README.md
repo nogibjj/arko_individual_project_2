@@ -103,9 +103,9 @@ cargo test
 - After running the main script, you can enter SQL commands directly into the prompt. Ensure that your commands are valid SQL statements compatible with SQLite.
 - Use the default mode for quick insights on the stock's performance without needing to input SQL commands manually.
 
-## Contributing
+## Youtube Video
 
-Contributions are welcome! If you have suggestions for improvements or find bugs, please open an issue or submit a pull request.
+https://youtu.be/RgeQnwZxLFA
 
 ## License
 
