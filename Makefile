@@ -1,29 +1,22 @@
 install:
-	pip install --upgrade pip &&\
-		pip install -r requirements.txt
+	cargo install --path .
 
-test:
-	python -m pytest -vv --cov=main --cov=mylib test_*.py
-
-format:	
-	black *.py 
+format:
+	cargo fmt --quiet
 
 lint:
-	ruff check *.py mylib/*.py
+	cargo clippy --quiet
 
-container-lint:
-	docker run --rm -i hadolint/hadolint < .devcontainer/Dockerfile
+test:
+	cargo test --quiet
 
-refactor: format lint
+run:
+	cargo run --release
 
-deploy:
+build:
+	cargo build --release
 
-	docker build -f .devcontainer/Dockerfile -t arko_cli_tool:latest .
+release:
+	cargo build --release
 
-	docker rm -f arko_cli_tool
-
-	docker run -d --name arko_cli_tool -p 80:80 arko_cli_tool:latest
-
-	echo "Deployment completed."
-		
-all: install lint test format deploy
+all: format lint test run
